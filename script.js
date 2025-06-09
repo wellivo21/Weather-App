@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-
     const cityInput = document.getElementById("city-input");
     const getWeatherBtn = document.getElementById("get-weather-btn");
     const cityNameDisplay = document.getElementById("city-name");
@@ -18,12 +17,12 @@ document.addEventListener("DOMContentLoaded", function () {
     })
 
     async function fetchWeatherData(city) {
-        const url = overwriteCityAndApiKey(city, API_KEY);
+        const url = `/.netlify/functions/getWeather?city=${encodeURIComponent(city)}`;
 
         try {
             const response = await fetch(url);
             if (!response.ok) {
-                throw new Error("City not found");
+            throw new Error("City not found");
             }
 
             const data = await response.json();
@@ -33,11 +32,6 @@ document.addEventListener("DOMContentLoaded", function () {
             showError();
             return null;
         }
-    }
-
-    function overwriteCityAndApiKey(city, apiKey) {
-        const newURL = OPEN_WEATHER_URL.replace("{CITY_NAME}", city).replace("{API_KEY}", apiKey);
-        return newURL;
     }
 
     function displayWeatherData(data) {
